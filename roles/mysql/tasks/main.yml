@@ -1,0 +1,20 @@
+- name: "Installing MySQL"
+  apt: name={{ item }}
+  with_items:
+  - mysql-server
+  - python-mysqldb
+  - python3-mysqldb
+
+
+- name: "Adding database"
+  mysql_db:
+    name: mediawiki
+    state: present
+
+- name: "Granting Access to DB"
+  mysql_user: name=mediawiki host=% priv=mediawiki.*:ALL password={{ lookup('password', 'credentials/dbpassword.txt') }}
+
+- name: "Allowing remote access"
+  copy: src=../files/n-mysqld-bind.cnf dest=/etc/mysql/mysql.conf.d/n-mysqld-bind.cnf owner=root group=root mode=0644
+  notify: restart-mysql 
+

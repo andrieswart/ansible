@@ -1,0 +1,32 @@
+- name: "Downloading Mediawiki"
+  unarchive: 
+    src: https://releases.wikimedia.org/mediawiki/1.31/mediawiki-1.31.0.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: "Copy Mediwiki files"
+  shell: mv /tmp/mediawiki-1.31.0 /var/www/html/mediawiki
+  
+- name: "Adding Mediawiki Configuration"
+  template: src=../files/LocalSettings.php dest=/var/www/html/mediawiki owner=root group=root mode=0644
+  
+- name: "Copy Logo"
+  copy:
+   src: ../files/mortalkombat.png
+   dest: /var/www/html/mediawiki/resources/assets/mortalkombat.png
+   owner: www-data
+   group: www-data
+   mode: 0755
+
+
+- name: "set persmissions"
+  file: 
+   dest: /var/www/html/mediawiki
+   owner: www-data
+   group: www-data
+   mode: 0755
+   recurse: yes
+
+- name: restart-nginx
+  shell: systemctl restart nginx.service
+

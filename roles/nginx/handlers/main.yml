@@ -1,0 +1,8 @@
+- name: enable-nginx
+  shell: systemctl stop nginx.service
+  shell: systemctl start nginx.service
+  shell: systemctl enable nginx.service
+
+- name: restart-nginx
+  shell: systemctl restart nginx.service
+

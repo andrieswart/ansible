@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: true
+  roles: 
+  - basic
+
+- hosts: all
+  become: true
+  roles: 
+  - nginx
+  - mediawiki
+
+#- hosts: dbserver
+#  become: true
+#  roles:
+#  - mysql
+

@@ -1,0 +1,36 @@
+- name: "Installing Nginx"
+  apt: name={{ item }}
+  with_items:
+  - nginx
+  notify: enable-nginx
+
+- name: "Adding Nginx site"
+  template: src=../files/mediawiki dest=/etc/nginx/sites-available/mediawiki owner=root group=root mode=0644
+  notify: restart-nginx
+
+- name: "Installing PHP modules"
+  apt: name={{ item }}
+  with_items:
+  - php-fpm 
+  - php-common 
+  - php-mbstring 
+  - php-xmlrpc 
+  - php-soap 
+  - php-gd 
+  - php-xml 
+  - php-intl 
+  - php-mysql 
+  - php-cli 
+  - php-mcrypt 
+  - php-ldap 
+  - php-zip 
+  - php-curl
+  notify: restart-nginx
+
+- name: "Enable Mediawiki site"
+  file: 
+   src: "/etc/nginx/sites-available/mediawiki"
+   dest: "/etc/nginx/sites-enabled/mediawiki"
+   state: link
+  notify: restart-nginx
+

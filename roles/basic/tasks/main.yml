@@ -1,0 +1,16 @@
+- name: "Update cache and upgrade"
+  apt: 
+   update_cache: yes
+   upgrade: dist
+
+- name: "Installing VIM"
+  apt: pkg={{ item }} state=present
+  with_items: 
+  - dnsutils
+  - git
+  - vim 
+  - ntp
+  - at
+  - lvm2
+  - wget
+
